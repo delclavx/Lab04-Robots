@@ -35,28 +35,39 @@ class PurePursuit:
         if not self._path:
             return 0.0, 0.0
 
-        # 1. Encontrar punto más cercano y luego el target
+        # # 1. Encontrar punto más cercano y luego el target
+        # _, closest_idx = self._find_closest_point(x, y)
+        # tx, ty = self._find_target_point((x, y), closest_idx)
+
+        # # 2. Calcular ángulo hacia el target (alpha)
+        # angle_to_target = math.atan2(ty - y, tx - x)
+        # alpha = angle_to_target - theta
+        
+        # # Normalizar alpha a [-pi, pi]
+        # alpha = math.atan2(math.sin(alpha), math.cos(alpha))
+
+        # # 3. Calcular curvatura y comandos
+        # # L = distancia real al target
+        # L = math.hypot(tx - x, ty - y)
+        
+        # v = 0.5  # Velocidad lineal constante (ejemplo)
+        
+        # # w = v * (2 * sin(alpha) / L)
+        # if L > 0:
+        #     w = v * (2.0 * math.sin(alpha) / L)
+        # else:
+        #     w = 0.0
+            
         _, closest_idx = self._find_closest_point(x, y)
         tx, ty = self._find_target_point((x, y), closest_idx)
 
-        # 2. Calcular ángulo hacia el target (alpha)
+        # Lógica de Pure Pursuit
         angle_to_target = math.atan2(ty - y, tx - x)
-        alpha = angle_to_target - theta
-        
-        # Normalizar alpha a [-pi, pi]
-        alpha = math.atan2(math.sin(alpha), math.cos(alpha))
-
-        # 3. Calcular curvatura y comandos
-        # L = distancia real al target
+        alpha = math.atan2(math.sin(angle_to_target - theta), math.cos(angle_to_target - theta))
         L = math.hypot(tx - x, ty - y)
         
-        v = 0.5  # Velocidad lineal constante (ejemplo)
-        
-        # w = v * (2 * sin(alpha) / L)
-        if L > 0:
-            w = v * (2.0 * math.sin(alpha) / L)
-        else:
-            w = 0.0
+        v = 0.3  # Velocidad recomendada para pruebas iniciales
+        w = v * (2.0 * math.sin(alpha) / L) if L > 0 else 0.0
         
         return v, w
 

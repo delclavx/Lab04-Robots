@@ -102,17 +102,25 @@ class PurePursuitNode(LifecycleNode):
         """
         # TODO: 4.1. Complete the function body with your code (i.e., replace the pass statement).
         
-        # Extraer los puntos (x, y) de la lista de poses del mensaje Path
-        new_path = []
-        for pose_stamped in path_msg.poses:
-            x = pose_stamped.pose.position.x
-            y = pose_stamped.pose.position.y
-            new_path.append((x, y))
+        # # Extraer los puntos (x, y) de la lista de poses del mensaje Path
+        # new_path = []
+        # for pose_stamped in path_msg.poses:
+        #     x = pose_stamped.pose.position.x
+        #     y = pose_stamped.pose.position.y
+        #     new_path.append((x, y))
 
-        # Actualizar la trayectoria en el controlador Pure Pursuit
-        self._pure_pursuit.set_path(new_path)
+        # # Actualizar la trayectoria en el controlador Pure Pursuit
+        # self._pure_pursuit.set_path(new_path)
         
-        self.get_logger().info(f"Recibida nueva trayectoria con {len(new_path)} puntos.")
+        # self.get_logger().info(f"Recibida nueva trayectoria con {len(new_path)} puntos.")
+        
+        # Extraemos los puntos
+        new_path = [(p.pose.position.x, p.pose.position.y) for p in path_msg.poses]
+        
+        # CUMPLIMIENTO 4.1: Usar la propiedad (path.setter)
+        self._pure_pursuit.path = new_path
+        
+        self.get_logger().info(f"Trayectoria recibida: {len(new_path)} puntos.")
         
     def _publish_velocity_commands(self, v: float, w: float) -> None:
         """Publishes velocity commands in a geometry_msgs.msg.TwistStamped message.
