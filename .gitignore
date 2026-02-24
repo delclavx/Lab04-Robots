@@ -1,0 +1,21 @@
+# Container
+.devcontainer
+.vscode
+docker-compose.yml
+.gitignore_hidden_message
+
+comands.info
+run.sh
+run2.sh
+build.sh
+
+# ROS
+build/
+install/
+log/
+pruevas/
+images/
+*.so
+
+# Python
+__pycache__/
