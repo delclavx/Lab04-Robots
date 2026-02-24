@@ -117,7 +117,6 @@ class PurePursuitNode(LifecycleNode):
         # Extraemos los puntos
         new_path = [(p.pose.position.x, p.pose.position.y) for p in path_msg.poses]
         
-        # CUMPLIMIENTO 4.1: Usar la propiedad (path.setter)
         self._pure_pursuit.path = new_path
         
         self.get_logger().info(f"Trayectoria recibida: {len(new_path)} puntos.")
